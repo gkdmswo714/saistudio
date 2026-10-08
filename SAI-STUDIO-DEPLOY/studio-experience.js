@@ -12,6 +12,14 @@ if(intro&&document.documentElement.classList.contains('sai-intro-pending')){
  reduced.addEventListener('change',()=>{if(reduced.matches)finish()},{once:true});
 }else intro?.remove();
 const menu=document.querySelector('.menu-dialog'),toggle=document.querySelector('.menu-toggle');let closing=false;
+const menuEmail=menu?.querySelector('.menu-info a[href^="mailto:"]');
+if(menuEmail){
+ const contacts=document.createElement('div');contacts.className='menu-contact-links';
+ const instagram=document.createElement('a');instagram.className='menu-instagram';instagram.href='https://www.instagram.com/studios.a_i/';instagram.target='_blank';instagram.rel='noopener noreferrer';instagram.setAttribute('aria-label','SAI STUDIO 인스타그램');instagram.title='Instagram';
+ instagram.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>';
+ menuEmail.before(contacts);contacts.append(instagram,menuEmail);
+}
+
 function closeMenu(){if(closing||!menu.open)return;closing=true;toggle.setAttribute('aria-expanded','false');const finish=()=>{menu.close();menu.classList.remove('closing');closing=false;toggle.focus({preventScroll:true})};if(reduced.matches)finish();else{menu.classList.add('closing');setTimeout(finish,600)}}
 toggle?.addEventListener('click',()=>{menu.showModal();setTimeout(()=>window.SAISignal?.pulse(menu.querySelector('.menu-link'),'text'),780);toggle.setAttribute('aria-expanded','true');menu.querySelector('.menu-close').focus({preventScroll:true})});menu?.querySelector('.menu-close').addEventListener('click',closeMenu);menu?.addEventListener('cancel',e=>{e.preventDefault();closeMenu()});menu?.addEventListener('keydown',e=>{if(e.key!=='Tab')return;const nodes=[...menu.querySelectorAll('a[href],button:not([disabled])')],first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}});
 menu?.querySelectorAll('.menu-link').forEach(link=>{const update=()=>{menu.querySelector('[data-menu-info]').textContent=link.dataset.description};link.addEventListener('pointerenter',update);link.addEventListener('focus',update)});
