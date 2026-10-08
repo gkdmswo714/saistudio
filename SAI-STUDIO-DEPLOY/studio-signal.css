@@ -1,0 +1,23 @@
+/* Quiet surveillance artifacts; all layers are decorative and non-interactive. */
+.signal-layer{position:fixed;inset:0;z-index:90;pointer-events:none;overflow:hidden;contain:strict}
+.signal-grain{position:absolute;inset:-4px;background:url('assets/signal-grain.svg') repeat;opacity:.022;animation:signal-offset 8s steps(1,end) infinite}
+.signal-scan{position:absolute;inset:0;background:repeating-linear-gradient(transparent 0 4px,#888 4px 5px);opacity:.012}
+.signal-tracking{position:absolute;top:0;left:0;right:0;height:1px;background:var(--paper,#eee);opacity:0}
+.signal-layer.is-tracking .signal-tracking{animation:signal-track 1.8s linear}
+.signal-frame{position:absolute;inset:0;background:#000;opacity:0}
+.signal-layer.is-frame .signal-frame{animation:signal-frame 200ms steps(1,end)}
+.signal-layer.is-observation .signal-grain{opacity:.032}
+.signal-layer.is-clean .signal-grain{opacity:.008}.signal-layer.is-clean .signal-scan{display:none}
+.signal-artifact-copy{position:absolute;display:block;pointer-events:none;white-space:nowrap;overflow:hidden;z-index:2;font:inherit;letter-spacing:inherit;color:inherit;text-transform:inherit;line-height:inherit;clip-path:inset(42% 0 37%);animation:signal-desync 180ms steps(1,end) both}
+.signal-artifact-host{position:relative}
+.signal-artifact-copy.is-slice{clip-path:inset(48% 0 30%);animation:signal-slice 110ms steps(1,end) both}
+.signal-anomaly{position:absolute;right:0;top:0;color:var(--muted,#aaa);background:var(--ink,#0b0d0c);font:500 9px/1.4 Helvetica,Arial,sans-serif;letter-spacing:.04em;pointer-events:none;z-index:3;white-space:nowrap}
+@keyframes signal-offset{0%,100%{transform:translate(0,0)}25%{transform:translate(2px,-1px)}50%{transform:translate(-1px,2px)}75%{transform:translate(1px,1px)}}
+@keyframes signal-track{0%{transform:translateY(0);opacity:0}10%,85%{opacity:.07}100%{transform:translateY(100vh);opacity:0}}
+@keyframes signal-desync{0%,100%{transform:translateX(0);opacity:0}20%{transform:translateX(2px);opacity:.6}55%{transform:translateX(-1px);opacity:.4}80%{opacity:0}}
+@keyframes signal-slice{0%,100%{transform:translateX(0);opacity:0}12%{transform:translateX(8px);opacity:.65}65%{opacity:0}}
+@keyframes signal-frame{0%,100%{opacity:0}20%{opacity:.12}60%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.signal-grain{animation:none;opacity:.008!important}.signal-scan,.signal-tracking,.signal-frame,.signal-artifact-copy,.signal-anomaly{display:none!important}}
+@media(max-width:700px){.signal-grain{opacity:.016}.signal-scan{opacity:.008}}
+
+.signal-layer[hidden]{display:none}.signal-layer[hidden] .signal-grain{animation-play-state:paused}.signal-layer.is-clean .signal-grain{animation:none}
